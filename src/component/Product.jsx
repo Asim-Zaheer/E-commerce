@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import single from './Single'
 
 export default function Product() {
     const [data,SetData]=useState([])
@@ -64,12 +65,7 @@ SetFilter(updateList)
 // let  clickCard = (id)=>{
 //     navigate(`/component/Single/${id}`)
 // }
-const navigate = useNavigate();
 
-const handleCardClick = (product) => {
-  // Card ke button per click hone par, dusre page par redirect karein aur data pass karein.
-  navigate(`/component/Single/${product.id}`, { state: { product } });
-};
 
 
 
@@ -104,7 +100,7 @@ const ShowProducts =()=>{
   <div className="card-body">
     <h5 className="card-title mb-0 ">{product.title.substring(0,11)  }...</h5>
     <p className="card-text text-center  lead fw-bold"  >${product.price}</p>
-    <button className="btn btn-outline-dark text-center" onClick={() => handleCardClick(product)} >Grab It Now!</button>
+    <Link className="btn btn-outline-dark text-center"   to={`/product/${product.id}`} >Grab It Now!</Link>
   </div>
 </div>
             </div>

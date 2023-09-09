@@ -1,28 +1,76 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import Product from './Product'
 // import Product from './Product'
+let comMounted = true
 
 export default function Single() {
-    let params =useParams()
-    const [model, SetModel]=useState([])
-    const getProducts=()=>{
-        axios.get("https://fakeapistore.com/products").then((res)=>{
-            console.log(res.data)
-            SetModel({...res.data})
-        })
-        .catch((err)=>{
-            console.log(err)
-        })
-    }
+    let {id} =useParams()
+    const [product, SetProduct]=useState([]) 
+    // const [filter , SetFilter]= useState([])
+    let comMounted = true
+
+    // useEffect(()=>{
+
+    //     const getProducts=()=>{
+    //         axios.get(`https://fakeapistore.com/products/${id}`).then((res)=>{
+    //             console.log(res.data)
+    //             SetProduct({...res.data})
+    //         })
+    //         .catch((err)=>{
+    //             console.log(err)
+    //         })
+    //     }
+    //     getProducts()
+    // },[])
+    useEffect(()=>{
+            const getProducts = async ()=>{
+              
+                const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+                // if (comMounted){
+
+                SetProduct(await response.json())
+                // SetFilter(await res.json())
+
+                // console.log(filter)
+                // }
+                // return ()=>{
+                //     comMounted=false
+                // }
+                
+                 
+                
+                
+            }
+            getProducts()
+        },[])
+
+ const ShowProduct = ()=>{
+    return (
+        <>
+    <div className="container">
+        <p>single Post</p>
+        <button className="btn btn-outline-dark"  > Get single post data </button>
+        <p  > {product } </p>
+        <p>hello</p>
+        <p  > {product.title ?? "" }</p>
+        <h3> 
+             {product.description ?? ""}
+        </h3>
+        <p  > {product.price  ?? ""}</p>
+    </div>
+
+        </>
+    )
+ }
+
   return (
     <>
     <div className="container">
-        <p>single Post</p>
-        <button className="btn btn-outline-dark" onClick={getProducts} > Get single post data </button>
-        <p display-3 > {model.id } </p>
-        <p  > {model.title }</p>
-        <p  > {model.price }</p>
+        <div className="row">
+            {<ShowProduct/>}
+        </div>
     </div>
     </>
   )
